@@ -11,5 +11,12 @@ export const loginService = () => {
     return response;
   };
 
+  const getRefreshToken = (refreshToken: string) => {
+    const response = HTTPMethods.post(API_CONSTANTS.AUTH.REFRESH_TOKEN, {
+      refreshToken,
+    });
+    return response;
+  };
+
   return { loginUser };
 };

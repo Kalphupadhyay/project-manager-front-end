@@ -4,9 +4,24 @@ import { HomePage } from "./pages/Home";
 import { MyTasks } from "./pages/home/MyTasks";
 import { Dashboard } from "./pages/home/Dashboard";
 import { AddNewTask } from "./pages/AddTask";
+import { useEffect, useState } from "react";
 
 function App() {
-  const isLoggedIn = false;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const checkAuth = () => {
+    // Logic to check if the user is authenticated
+    const hasAuthCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("isLoggedIn="));
+    if (!hasAuthCookie) {
+      setIsLoggedIn(false);
+    }
+  };
 
   return (
     <>
