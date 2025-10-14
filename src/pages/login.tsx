@@ -4,11 +4,11 @@ import { TaskLogo } from "../assets/task-logo";
 import { useForm } from "react-hook-form";
 import type { ILogin } from "../interface/local/login.interface";
 import { InputValidators } from "../utils/validators/inputValidators";
-import { loginService } from "../services/loginService";
+import { authService } from "../services/auth.service";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { loginUser } = loginService();
+  const { loginUser } = authService();
 
   const handleLogin = () => {
     navigate(AppRoutes.DASHBOARD);

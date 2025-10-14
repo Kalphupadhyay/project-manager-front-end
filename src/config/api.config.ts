@@ -23,7 +23,7 @@ axiosInstance.interceptors.response.use(
         case 401:
           // Unauthorized - redirect to login
 
-          window.location.href = "/login";
+          // window.location.href = "/login";
           break;
         case 403:
           console.error("Forbidden! You don't have permission.");

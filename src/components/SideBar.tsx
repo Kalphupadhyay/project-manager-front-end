@@ -1,11 +1,19 @@
 import { Link, useNavigate } from "react-router";
 import { TaskLogo } from "../assets/task-logo";
+import { authService } from "../services/auth.service";
 
 export const SideBar = () => {
   const navigate = useNavigate();
+  const { logoutUser } = authService();
 
   const handleAddNewTask = () => {
     navigate("/addtask");
+  };
+
+  const handleLogout = async () => {
+    // Implement logout functionality here
+    await logoutUser();
+    navigate("/login");
   };
 
   return (
@@ -62,7 +70,10 @@ export const SideBar = () => {
             john.doe@example.com
           </p>
         </div>
-        <button className="ml-auto text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
+        <button
+          onClick={handleLogout}
+          className="ml-auto text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer "
+        >
           <span className="material-symbols-outlined">logout</span>
         </button>
       </div>

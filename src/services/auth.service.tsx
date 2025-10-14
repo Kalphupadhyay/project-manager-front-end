@@ -1,7 +1,7 @@
 import { HTTPMethods } from "../config/api.config";
 import { API_CONSTANTS } from "../constants/api.constants";
 
-export const loginService = () => {
+export const authService = () => {
   const loginUser = (email: string, password: string) => {
     const response = HTTPMethods.post(API_CONSTANTS.AUTH.LOGIN, {
       email,
@@ -11,12 +11,15 @@ export const loginService = () => {
     return response;
   };
 
-  const getRefreshToken = (refreshToken: string) => {
-    const response = HTTPMethods.post(API_CONSTANTS.AUTH.REFRESH_TOKEN, {
-      refreshToken,
-    });
+  const logoutUser = () => {
+    const response = HTTPMethods.get(API_CONSTANTS.AUTH.LOGOUT);
     return response;
   };
 
-  return { loginUser };
+  const getRefreshToken = () => {
+    const response = HTTPMethods.post(API_CONSTANTS.AUTH.REFRESH_TOKEN);
+    return response;
+  };
+
+  return { loginUser, getRefreshToken, logoutUser };
 };

@@ -13,15 +13,20 @@ function App() {
     checkAuth();
   }, []);
 
-  const checkAuth = () => {
+  const checkAuth = async () => {
     // Logic to check if the user is authenticated
     const hasAuthCookie = document.cookie
       .split("; ")
       .find((row) => row.startsWith("isLoggedIn="));
+
     if (!hasAuthCookie) {
       setIsLoggedIn(false);
+      return;
     }
+    setIsLoggedIn(true);
   };
+
+  console.log("isLoggedIn", isLoggedIn);
 
   return (
     <>
