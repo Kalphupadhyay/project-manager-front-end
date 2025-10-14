@@ -6,7 +6,7 @@ const API_VERSION = {
 
 const API = {
   AUTH: `${API_VERSION.AUTH}/auth`,
-  PROJECT: `${API_VERSION.PROJECT}/project`,
+  PROJECT: `${API_VERSION.PROJECT}/projects`,
 };
 
 export const API_CONSTANTS = {
@@ -15,5 +15,8 @@ export const API_CONSTANTS = {
     REGISTER: `${API.AUTH}/register`,
     LOGOUT: `${API.AUTH}/logout`,
     REFRESH_TOKEN: `${API.AUTH}/refresh-token`,
+  },
+  PROJECT: {
+    GET_PROJECTS: `${API.PROJECT}/`,
   },
 };

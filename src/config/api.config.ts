@@ -1,4 +1,5 @@
-import axios, { type AxiosRequestConfig } from "axios";
+import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
+import type { IGenericApiResponse } from "../interface/api/genericApi.interface";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8000/api", // Replace with your API base URL
@@ -52,10 +53,14 @@ axiosInstance.interceptors.response.use(
 // HTTP Methods wrapper
 export class HTTPMethods {
   static get<T>(url: string, params?: AxiosRequestConfig) {
-    return axiosInstance.get<T>(url, { params });
+    return axiosInstance.get<IGenericApiResponse<T>>(url, { params });
   }
 
   static post<Req, Res>(url: string, data?: Req, config?: AxiosRequestConfig) {
-    return axiosInstance.post<Res>(url, data, config);
+    return axiosInstance.post<AxiosResponse<IGenericApiResponse<Res>>>(
+      url,
+      data,
+      config
+    );
   }
 }

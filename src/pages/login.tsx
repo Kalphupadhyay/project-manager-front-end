@@ -5,10 +5,12 @@ import { useForm } from "react-hook-form";
 import type { ILogin } from "../interface/local/login.interface";
 import { InputValidators } from "../utils/validators/inputValidators";
 import { authService } from "../services/auth.service";
+import { useState } from "react";
 
 export const Login = () => {
   const navigate = useNavigate();
   const { loginUser } = authService();
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleLogin = () => {
     navigate(AppRoutes.DASHBOARD);
@@ -25,6 +27,10 @@ export const Login = () => {
     if (response.status === 200) {
       handleLogin();
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
   };
 
   return (
@@ -81,11 +87,19 @@ export const Login = () => {
                   lock
                 </span>
               </span>
+              <span
+                onClick={togglePasswordVisibility}
+                className=" cursor-pointer absolute inset-y-0 right-0 flex items-center pr-3"
+              >
+                <span className="material-symbols-outlined text-slate-500">
+                  {isPasswordVisible ? "visibility" : "visibility_off"}
+                </span>
+              </span>
               <input
                 className="form-input block w-full rounded-md border-slate-700 bg-slate-800 py-3 pl-10 pr-4 text-slate-100 placeholder-slate-500 shadow-sm transition duration-150 ease-in-out focus:border-primary focus:ring-primary sm:text-sm"
                 id="password"
                 placeholder="Enter your password"
-                type="password"
+                type={isPasswordVisible ? "text" : "password"}
                 {...register("password", {
                   required: true,
                   minLength: 6,
