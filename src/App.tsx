@@ -26,8 +26,6 @@ function App() {
     setIsLoggedIn(true);
   };
 
-  console.log("isLoggedIn", isLoggedIn);
-
   return (
     <>
       <Routes>

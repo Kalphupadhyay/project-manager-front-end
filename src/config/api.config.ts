@@ -1,5 +1,6 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
 import type { IGenericApiResponse } from "../interface/api/genericApi.interface";
+import { authService } from "../services/auth.service";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:8000/api", // Replace with your API base URL
@@ -12,8 +13,6 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    // Log response (optional)
-    console.log("Response:", response.status, response.config.url);
     return response;
   },
   (error) => {
@@ -22,9 +21,12 @@ axiosInstance.interceptors.response.use(
       // Server responded with error status
       switch (error.response.status) {
         case 401:
-          // Unauthorized - redirect to login
+          authService()
+            .logoutUser()
+            .then(() => {
+              // window.location.href = "/login";
+            });
 
-          // window.location.href = "/login";
           break;
         case 403:
           console.error("Forbidden! You don't have permission.");

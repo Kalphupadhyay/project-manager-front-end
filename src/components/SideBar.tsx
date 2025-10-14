@@ -22,14 +22,14 @@ export const SideBar = () => {
       <nav className="flex-1 px-4 py-6 space-y-2">
         <Link
           className="flex items-center gap-3 px-4 py-2 rounded-md bg-blue-600 text-white font-semibold"
-          to={"/"}
+          to={"/home"}
         >
           <span className="material-symbols-outlined">dashboard</span>
           <span>Dashboard</span>
         </Link>
         <Link
           className="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-gray-700 hover:text-white"
-          to={"/tasks"}
+          to={"/home/tasks"}
         >
           <span className="material-symbols-outlined">task_alt</span>
           <span>My Tasks</span>
