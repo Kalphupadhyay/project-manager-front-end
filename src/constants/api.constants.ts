@@ -15,6 +15,7 @@ export const API_CONSTANTS = {
     REGISTER: `${API.AUTH}/register`,
     LOGOUT: `${API.AUTH}/logout`,
     REFRESH_TOKEN: `${API.AUTH}/refresh-token`,
+    CURRENT_USER: `${API.AUTH}/current-user`,
   },
   PROJECT: {
     GET_PROJECTS: `${API.PROJECT}/`,

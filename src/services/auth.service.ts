@@ -1,5 +1,6 @@
 import { HTTPMethods } from "../config/api.config";
 import { API_CONSTANTS } from "../constants/api.constants";
+import type { IUser } from "../interface/local/user.interface";
 
 export const authService = () => {
   const loginUser = (email: string, password: string) => {
@@ -11,8 +12,15 @@ export const authService = () => {
     return response;
   };
 
-  const logoutUser = () => {
-    const response = HTTPMethods.get(API_CONSTANTS.AUTH.LOGOUT);
+  const getCurrentUser = async () => {
+    const response = await HTTPMethods.get<IUser>(
+      API_CONSTANTS.AUTH.CURRENT_USER
+    );
+    return response.data;
+  };
+
+  const logoutUser = async () => {
+    const response = await HTTPMethods.get(API_CONSTANTS.AUTH.LOGOUT);
     return response;
   };
 
@@ -21,5 +29,5 @@ export const authService = () => {
     return response;
   };
 
-  return { loginUser, getRefreshToken, logoutUser };
+  return { loginUser, getRefreshToken, logoutUser, getCurrentUser };
 };

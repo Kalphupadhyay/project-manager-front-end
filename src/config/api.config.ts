@@ -53,7 +53,9 @@ axiosInstance.interceptors.response.use(
 // HTTP Methods wrapper
 export class HTTPMethods {
   static get<T>(url: string, params?: AxiosRequestConfig) {
-    return axiosInstance.get<IGenericApiResponse<T>>(url, { params });
+    return axiosInstance.get<IGenericApiResponse<T>>(url, {
+      params,
+    });
   }
 
   static post<Req, Res>(url: string, data?: Req, config?: AxiosRequestConfig) {
