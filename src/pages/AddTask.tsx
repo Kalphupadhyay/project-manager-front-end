@@ -1,8 +1,22 @@
 import { useNavigate } from "react-router";
 import { Header } from "../components/Header";
+import { projectService } from "../services/project.service";
+import type { IProjectResponse } from "../interface/api/projectResponse.interface";
+import { useEffect, useState } from "react";
 
 export const AddNewTask = () => {
+  const [projects, setProjects] = useState<IProjectResponse[]>([]);
   const navigate = useNavigate();
+  const { getProjects } = projectService();
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    const response = await getProjects();
+    setProjects(response.data);
+  };
 
   const handleCancel = () => {
     navigate(-1); // Navigate back to the previous page
@@ -35,9 +49,11 @@ export const AddNewTask = () => {
                 name="project-name"
               >
                 <option>Select a project</option>
-                <option>Project Alpha</option>
-                <option>Project Beta</option>
-                <option>Project Gamma</option>
+                {projects.map((project) => (
+                  <option key={project.id} value={project.id}>
+                    {project.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
@@ -73,40 +89,8 @@ export const AddNewTask = () => {
                   <option>Done</option>
                 </select>
               </div>
-              <div>
-                <label
-                  className="block text-sm font-medium text-gray-300"
-                  htmlFor="due-date"
-                >
-                  Due Date
-                </label>
-                <div className="relative mt-1">
-                  <input
-                    className="block w-full rounded-md border border-[#30363d] bg-[#0d1117] px-3 py-2 text-white placeholder-gray-500 shadow-sm focus:border-[var(--primary-color)] focus:outline-none focus:ring-[var(--primary-color)] sm:text-sm"
-                    id="due-date"
-                    name="due-date"
-                    type="date"
-                  />
-                </div>
-              </div>
             </div>
-            <div>
-              <label
-                className="block text-sm font-medium text-gray-300"
-                htmlFor="priority"
-              >
-                Priority
-              </label>
-              <select
-                className="form-select mt-1 block w-full appearance-none rounded-md border border-[#30363d] bg-[#0d1117] px-3 py-2 text-white placeholder-gray-500 shadow-sm focus:border-[var(--primary-color)] focus:outline-none focus:ring-[var(--primary-color)] sm:text-sm"
-                id="priority"
-                name="priority"
-              >
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
-              </select>
-            </div>
+
             <div>
               <label
                 className="block text-sm font-medium text-gray-300"

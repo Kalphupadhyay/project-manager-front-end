@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { CurrentTasks } from "../../components/CurrentTasks";
 import { projectService } from "../../services/project.service";
-import type { IProject } from "../../interface/local/project.interface";
+import type { IProjectResponse } from "../../interface/api/projectResponse.interface";
 
 export const Dashboard = () => {
-  const [projects, setProjects] = useState<IProject[]>([]);
+  const [projects, setProjects] = useState<IProjectResponse[]>([]);
   const { getProjects } = projectService();
 
   useEffect(() => {
