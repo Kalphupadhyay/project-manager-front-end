@@ -5,6 +5,7 @@ import { MyTasks } from "./pages/home/MyTasks";
 import { Dashboard } from "./pages/home/Dashboard";
 import { AddNewTask } from "./pages/AddTask";
 import { useEffect, useState } from "react";
+import { AppRoutes } from "./constants/routes";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -35,11 +36,12 @@ function App() {
             isLoggedIn ? <Navigate to={"/home"} /> : <Navigate to={"/login"} />
           }
         />
-        <Route path="/login" element={<Login />} />
+        <Route path={AppRoutes.LOGIN} element={<Login />} />
         <Route path="/addtask" element={<AddNewTask />} />
-        <Route path="/home" element={<HomePage />}>
+        <Route path={AppRoutes.HOME} element={<HomePage />}>
           <Route path="tasks" element={<MyTasks />} />
-          <Route index element={<Dashboard />} />
+          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
     </>

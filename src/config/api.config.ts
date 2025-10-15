@@ -22,11 +22,15 @@ axiosInstance.interceptors.response.use(
       switch (error.response.status) {
         case 401:
           authService()
-            .logoutUser()
-            .then(() => {
-              // window.location.href = "/login";
+            .getRefreshToken()
+            .then(() => {})
+            .catch(() => {
+              authService()
+                .logoutUser()
+                .then(() => {
+                  // window.location.href = "/login";
+                });
             });
-
           break;
         case 403:
           console.error("Forbidden! You don't have permission.");
