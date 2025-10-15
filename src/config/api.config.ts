@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
 import type { IGenericApiResponse } from "../interface/api/genericApi.interface";
 import { authService } from "../services/auth.service";
