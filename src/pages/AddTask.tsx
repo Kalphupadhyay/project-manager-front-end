@@ -3,11 +3,15 @@ import { Header } from "../components/Header";
 import { projectService } from "../services/project.service";
 import type { IProjectResponse } from "../interface/api/projectResponse.interface";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import type { ITask } from "../interface/local/task.interface";
+import { TaskService } from "../services/task.service";
 
 export const AddNewTask = () => {
   const [projects, setProjects] = useState<IProjectResponse[]>([]);
   const navigate = useNavigate();
   const { getProjects } = projectService();
+  const { createTask } = TaskService();
 
   useEffect(() => {
     fetchProjects();
@@ -18,8 +22,23 @@ export const AddNewTask = () => {
     setProjects(response.data);
   };
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ITask>();
+
   const handleCancel = () => {
     navigate(-1); // Navigate back to the previous page
+  };
+
+  const onSubmit = async (data: ITask) => {
+    try {
+      await createTask(data, data.id);
+      navigate(-1); // Navigate back to the previous page after successful submission
+    } catch (error) {
+      console.error("Error creating task:", error);
+    }
   };
 
   return (
@@ -35,7 +54,7 @@ export const AddNewTask = () => {
               Fill out the form below to create a new task.
             </p>
           </div>
-          <form className="space-y-6">
+          <div className="space-y-6">
             <div>
               <label
                 className="block text-sm font-medium text-gray-300"
@@ -46,15 +65,20 @@ export const AddNewTask = () => {
               <select
                 className="form-select mt-1 block w-full appearance-none rounded-md border border-[#30363d] bg-[#0d1117] px-3 py-2 text-white placeholder-gray-500 shadow-sm focus:border-[var(--primary-color)] focus:outline-none focus:ring-[var(--primary-color)] sm:text-sm"
                 id="project-name"
-                name="project-name"
+                {...register("id", { required: "Project is required" })}
               >
-                <option>Select a project</option>
+                <option value={""}>Select a project</option>
                 {projects.map((project) => (
-                  <option key={project.id} value={project.id}>
+                  <option key={project._id} value={project._id}>
                     {project.name}
                   </option>
                 ))}
               </select>
+              {errors.id && (
+                <div className="text-red-500 text-sm mt-1">
+                  {errors.id.message}
+                </div>
+              )}
             </div>
             <div>
               <label
@@ -66,29 +90,15 @@ export const AddNewTask = () => {
               <input
                 className="mt-1 block w-full rounded-md border border-[#30363d] bg-[#0d1117] px-3 py-2 text-white placeholder-gray-500 shadow-sm focus:border-[var(--primary-color)] focus:outline-none focus:ring-[var(--primary-color)] sm:text-sm"
                 id="task-name"
-                name="task-name"
                 placeholder="Enter task name"
                 type="text"
+                {...register("title", { required: "Task name is required" })}
               />
-            </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <div>
-                <label
-                  className="block text-sm font-medium text-gray-300"
-                  htmlFor="status"
-                >
-                  Status
-                </label>
-                <select
-                  className="form-select mt-1 block w-full appearance-none rounded-md border border-[#30363d] bg-[#0d1117] px-3 py-2 text-white placeholder-gray-500 shadow-sm focus:border-[var(--primary-color)] focus:outline-none focus:ring-[var(--primary-color)] sm:text-sm"
-                  id="status"
-                  name="status"
-                >
-                  <option>To Do</option>
-                  <option>In Progress</option>
-                  <option>Done</option>
-                </select>
-              </div>
+              {errors.title && (
+                <div className="text-red-500 text-sm mt-1">
+                  {errors.title.message}
+                </div>
+              )}
             </div>
 
             <div>
@@ -101,9 +111,16 @@ export const AddNewTask = () => {
               <textarea
                 className="mt-1 block w-full rounded-md border border-[#30363d] bg-[#0d1117] px-3 py-2 text-white placeholder-gray-500 shadow-sm focus:border-[var(--primary-color)] focus:outline-none focus:ring-[var(--primary-color)] sm:text-sm"
                 id="description"
-                name="description"
                 placeholder="Add a detailed description..."
+                {...register("description", {
+                  required: "Description is required",
+                })}
               ></textarea>
+              {errors.description && (
+                <div className="text-red-500 text-sm mt-1">
+                  {errors.description.message}
+                </div>
+              )}
             </div>
             <div className="flex justify-end gap-4 pt-4">
               <button
@@ -114,13 +131,14 @@ export const AddNewTask = () => {
                 Cancel
               </button>
               <button
+                onClick={() => handleSubmit(onSubmit)()}
                 className="rounded-md border border-transparent bg-[var(--primary-color)] px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-[#116dca] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:ring-offset-2 focus:ring-offset-[#0d1117]"
                 type="submit"
               >
                 Save Task
               </button>
             </div>
-          </form>
+          </div>
         </div>
       </main>
     </div>

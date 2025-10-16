@@ -1,5 +1,5 @@
 export interface IProjectResponse {
-  id: string;
+  _id: string;
   name: string;
   status: string;
   description: string;

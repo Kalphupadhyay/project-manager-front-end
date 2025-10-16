@@ -24,5 +24,6 @@ export const API_CONSTANTS = {
   },
   TASK: {
     CREATE_TASK: `${API.TASK}/`,
+    CURRENT_USER_TASKS: `${API.TASK}/me/`,
   },
 };

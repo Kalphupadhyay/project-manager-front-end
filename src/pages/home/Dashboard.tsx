@@ -5,6 +5,7 @@ import type { IProjectResponse } from "../../interface/api/projectResponse.inter
 
 export const Dashboard = () => {
   const [projects, setProjects] = useState<IProjectResponse[]>([]);
+
   const { getProjects } = projectService();
 
   useEffect(() => {
